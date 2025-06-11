@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPA Hacker Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #141e30, #243b55);
+    }
+    .login-container {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 50px;
+      border-radius: 20px;
+      width: 180%;
+      max-width: 400px;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .login-container img {
+      width: 200px;
+      height: auto;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+    .login-container .slogan {
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #ccc;
+    }
+    h1 {
+      font-size: 26px;
+      margin-bottom: 20px;
+      color: #00ffff;
+    }
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .forgot-password {
+      font-size: 13px;
+      color: #ccc;
+      text-decoration: none;
+    }
+    .login-button, .test-button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .login-button {
+      background-color: #00ffff;
+      color: #000;
+    }
+    .test-button {
+      background-color: #ffffff;
+      color: #243b55;
+    }
+    .login-button:hover {
+      background-color: #00cccc;
+    }
+    .test-button:hover {
+      background-color: #e0e0e0;
+    }
+    .support-number {
+      margin-top: 20px;
+      font-size: 14px;
+      color: white;
+    }
+    .support-number a {
+      color: #00ffff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="spa.png" alt="Logo">
+    <div class="slogan">O segredo dos campi&otilde;es</div>
+    <h1>SPA Hacker</h1>
+    <form id="login-form">
+      <div class="input-group">
+        <input type="tel" id="username" placeholder="Número" required>
+      </div>
+      <div class="input-group">
+        <input type="text" id="password" placeholder="Palavra-passe" required>
+      </div>
+      <a href="tel:926240472" class="forgot-password">Esqueceu a palavra-passe?</a>
+      <button type="submit" class="login-button">Entrar</button>
+      <button type="button" class="test-button" onclick="usarContaDeTeste()">TESTAR SPA HACKER</button>
+    </form>
+    <div class="support-number">
+      Precisa de ajuda? Ligue para <a href="#">926 240 472</a>
+    </div>
+    <div class="support-number">
+      WhatsApp: <a href="#">926 240 472</a>
+    </div>
+  </div>
+
+  <script>
+    const loginForm = document.getElementById("login-form");
+
+    loginForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      fetch('usuarios.json')
+        .then(response => response.json())
+        .then(data => {
+          const userFound = data.find(user => user.username === username && user.password === password);
+          if (userFound) {
+            alert("Login bem-sucedido!");
+            window.location.href = "bot.html";
+          } else {
+            alert("Credenciais inválidas! Tente novamente.");
+          }
+        })
+        .catch(error => {
+          console.error("Erro ao acessar o banco de dados:", error);
+          alert("Erro ao verificar os dados. Tente novamente.");
+        });
+    });
+
+    function usarContaDeTeste() {
+      document.getElementById("username").value = "926240472";
+      document.getElementById("password").value = "12345678";
+      loginForm.dispatchEvent(new Event("submit"));
+    }
+  </script>
+</body>
+</html>

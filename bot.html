@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SPA Hacker</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      text-align: center;
+      padding-top: 40px;
+    }
+
+    .header {
+      font-size: 30px;
+      font-weight: bold;
+      color: #00ffff;
+      margin-bottom: 10px;
+    }
+
+    h4 {
+      color: #ccc;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .predictor {
+      background: transparent;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 400px;
+      padding: 30px 0;
+      margin-bottom: 30px;
+    }
+
+    /* === Círculo giratório ao redor do número === */
+    .circle-wrapper {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 20px auto;
+    }
+
+    .circle-wrapper .circle {
+      position: absolute;
+      top: 0; left: 0;
+      width: 140px;
+      height: 140px;
+      border: 4px solid #00ffff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 2.5s linear infinite;
+    }
+
+    .circle-wrapper .number {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 48px;
+      font-weight: 700;
+      color: #FFEB3B;
+      user-select: none;
+      min-width: 90px;
+    }
+
+    @keyframes spin {
+      0% {transform: rotate(0deg);}
+      100% {transform: rotate(360deg);}
+    }
+
+    button {
+      padding: 14px 30px;
+      border: none;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      width: 90%;
+      max-width: 320px;
+      margin: 10px auto;
+      display: block;
+      background: linear-gradient(to right, #00ffff, #0088ff);
+      color: #000;
+      box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+    }
+
+    button:hover {
+      filter: brightness(1.1);
+    }
+
+    .msg {
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px 20px;
+      border-left: 5px solid #00ffff;
+      border-radius: 8px;
+      display: none;
+      margin-top: 20px;
+    }
+
+    .history-container {
+      background: transparent;
+      border-radius: 16px;
+      padding: 15px 0;
+      margin-top: 5px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .history-container h3 {
+      margin-bottom: 10px;
+      color: #00ffff;
+    }
+
+    .history ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .history li {
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 14px;
+      background: #222;
+      min-width: 50px;
+      text-align: center;
+    }
+
+    .blue { background-color: #2196F3; color: #fff; }
+    .purple { background-color: #9C27B0; color: #fff; }
+    .pink { background-color: #E91E63; color: #fff; }
+
+    /* Botões VIP em coluna */
+    .vip-buttons {
+      width: 90%;
+      max-width: 320px;
+      margin: 0 auto 30px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    footer {
+      margin-top: 30px;
+      font-size: 18px;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">SPA Hacker</div>
+  <h4>O segredo dos campeões</h4>
+
+  <div class="predictor">
+    <div class="circle-wrapper">
+      <div class="circle"></div>
+      <div class="number" id="multiplier">0.00x</div>
+    </div>
+
+    <button onclick="startHack()" id="predictBtn">🚀 Hackear Próxima Vela</button>
+  </div>
+
+  <div class="vip-buttons">
+    <button onclick="location.href='sintronizar.html'">🔐 Sincronizar com Elephantbet</button>
+ <button onclick="location.href='sintronizar2.html'">👑 Acessar SPA HACHER SUPREMO</button>
+  </div>
+
+  <div class="msg" id="mensagemBot"></div>
+
+  <div class="history-container">
+    <h3>Histórico de Velas</h3>
+    <div class="history">
+      <ul id="historyList"></ul>
+    </div>
+  </div>
+
+  <footer>Conectado com inteligência artificial</footer>
+
+  <script>
+    // Gera um número aleatório com as probabilidades e valores definidos
+    function generateRandomMultiplier() {
+      const rand = Math.random();
+
+      if (rand < 0.75) {
+        // Azul: 1.00 até 1.99
+        return (Math.random() * 0.99 + 1).toFixed(2);
+      } else if (rand < 0.95) {
+        // Roxo: 2.00 até 9.00
+        return (Math.random() * 7 + 2).toFixed(2);
+      } else {
+        // Rosa: 9.01 até 20.00 (max arbitrário)
+        return (Math.random() * 11 + 9.01).toFixed(2);
+      }
+    }
+
+    // Função para iniciar a contagem rápida e depois parar no resultado final
+    function startHack() {
+      const display = document.getElementById("multiplier");
+      const button = document.getElementById("predictBtn");
+      const historyList = document.getElementById("historyList");
+
+      button.disabled = true;
+
+      // Número final gerado
+      const finalValue = generateRandomMultiplier();
+
+      let currentValue = 1.00; // começa em 1.00
+      const speed = 20; // tempo do intervalo em ms
+      const increment = 0.05; // quanto o número aumenta a cada intervalo
+
+      display.textContent = currentValue.toFixed(2) + "x";
+
+      // Contagem rápida - incrementa até chegar próximo do valor final
+      const counterInterval = setInterval(() => {
+        if (currentValue >= parseFloat(finalValue)) {
+          clearInterval(counterInterval);
+          // Exibe o valor final certinho com o x
+          display.textContent = finalValue + "x";
+
+          // Adiciona ao histórico com cor
+          const li = document.createElement("li");
+          li.textContent = finalValue + "x";
+
+          const valueNum = parseFloat(finalValue);
+          if (valueNum <= 1.99) li.classList.add("blue");
+          else if (valueNum <= 9.00) li.classList.add("purple");
+          else li.classList.add("pink");
+
+          historyList.insertBefore(li, historyList.firstChild);
+          if (historyList.children.length > 12) {
+            historyList.removeChild(historyList.lastChild);
+          }
+
+          button.disabled = false;
+        } else {
+          currentValue += increment;
+          display.textContent = currentValue.toFixed(2) + "x";
+        }
+      }, speed);
+    }
+  </script>
+
+</body>
+</html>
